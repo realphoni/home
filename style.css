@@ -52,6 +52,22 @@ a{ color:inherit; }
   .blob{ animation:none; }
 }
 
+/* ---------- cursor glow ---------- */
+.cursor-glow{
+  position:fixed;
+  inset:0;
+  z-index:5;
+  pointer-events:none;
+  background: radial-gradient(600px circle at var(--mx, 50%) var(--my, 20%), rgba(70,255,180,.10), transparent 42%);
+  mix-blend-mode: screen;
+}
+@media (prefers-reduced-motion: reduce){
+  .cursor-glow{ display:none; }
+}
+@media (hover: none){
+  .cursor-glow{ display:none; }
+}
+
 /* ---------- glass primitive ---------- */
 .glass{
   position:relative;
@@ -69,7 +85,12 @@ a{ color:inherit; }
   inset:0;
   background: linear-gradient(115deg, transparent 25%, rgba(255,255,255,.14) 45%, transparent 62%);
   transform: translateX(-60%);
+  transition: transform .7s ease;
   pointer-events:none;
+}
+.glass:hover::before{ transform: translateX(60%); }
+@media (prefers-reduced-motion: reduce){
+  .glass::before{ transition:none; }
 }
 
 :focus-visible{ outline: 2px solid var(--mint); outline-offset: 3px; }
@@ -87,6 +108,16 @@ nav{
   justify-content:space-between;
   padding:12px 20px;
   border-radius: 999px;
+  transition: background .3s ease, backdrop-filter .3s ease, border-color .3s ease;
+}
+nav.scrolled{
+  background: linear-gradient(155deg, rgba(255,255,255,.18), rgba(255,255,255,.06) 60%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  backdrop-filter: blur(30px) saturate(180%);
+  border-color: rgba(255,255,255,.24);
+}
+@media (prefers-reduced-motion: reduce){
+  nav{ transition:none; }
 }
 .logo{
   display:flex;
@@ -154,6 +185,17 @@ nav{
 }
 
 .hero-actions{ display:flex; gap:14px; flex-wrap:wrap; justify-content:center; }
+
+@media (prefers-reduced-motion: no-preference){
+  @keyframes rise{
+    from{ opacity:0; transform: translateY(16px); }
+    to{ opacity:1; transform:none; }
+  }
+  .hero .avatar-wrap{ animation: rise .7s cubic-bezier(.2,.8,.2,1) both; }
+  .hero h1{ animation: rise .7s cubic-bezier(.2,.8,.2,1) .12s both; }
+  .hero p.sub{ animation: rise .7s cubic-bezier(.2,.8,.2,1) .22s both; }
+  .hero .hero-actions{ animation: rise .7s cubic-bezier(.2,.8,.2,1) .32s both; }
+}
 .btn-primary, .btn-ghost{
   padding:12px 24px;
   border-radius:999px;

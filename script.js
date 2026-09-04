@@ -1,6 +1,6 @@
-
-const GITHUB_USERNAME = 'realphoni';
-
+// ---- set this to your own GitHub handle ----
+const GITHUB_USERNAME = 'your-github-username';
+// ---------------------------------------------
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -65,7 +65,7 @@ function renderRepos(repos){
   if(!originals.length){
     const note = document.createElement('div');
     note.className = 'empty-note glass';
-    note.textContent = 'No original public repositories yet — once you push one, it shows up here.';
+    note.textContent = 'No original public repositories yet - once you push one, it shows up here.';
     els.repoGrid.appendChild(note);
     return;
   }
@@ -142,3 +142,24 @@ async function loadOwnData(){
 }
 
 loadOwnData();
+
+// ---- cursor-reactive glass glow ----
+const glow = document.getElementById('cursorGlow');
+if(glow && !reduceMotion && matchMedia('(hover: hover)').matches){
+  let ticking = false;
+  window.addEventListener('mousemove', (e) => {
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      document.documentElement.style.setProperty('--mx', e.clientX + 'px');
+      document.documentElement.style.setProperty('--my', e.clientY + 'px');
+      ticking = false;
+    });
+  });
+}
+
+// ---- nav glass intensifies on scroll ----
+const navEl = document.querySelector('nav');
+const onScroll = () => navEl.classList.toggle('scrolled', window.scrollY > 40);
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
