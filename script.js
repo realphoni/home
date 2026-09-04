@@ -1,6 +1,6 @@
-// ---- set this to your own GitHub handle ----
-const GITHUB_USERNAME = 'your-github-username';
-// ---------------------------------------------
+
+const GITHUB_USERNAME = 'realphoni';
+
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
